@@ -18,15 +18,29 @@ const BottomBarNavigation = () => {
       sceneContainerStyle={{backgroundColor: 'white'}}
       screenOptions={{
         tabBarIcon: () => null,
-        tabBarActiveTintColor: 'red',
         tabBarShowLabel: true,
         tabBarLabelStyle: {
           alignSelf: 'center',
         },
       }}>
-      <Tab.Screen name="cardScreen" component={CardScreen} />
-      <Tab.Screen name="ordinalScreen" component={OrdinalScreen} />
       <Tab.Screen
+        options={{
+          title: 'Card',
+        }}
+        name="cardScreen"
+        component={CardScreen}
+      />
+      <Tab.Screen
+        options={{
+          title: 'Ordinal',
+        }}
+        name="ordinalScreen"
+        component={OrdinalScreen}
+      />
+      <Tab.Screen
+        options={{
+          title: 'Polish',
+        }}
         name="polishNotationScreen"
         component={PolishNotationScreen}
       />
