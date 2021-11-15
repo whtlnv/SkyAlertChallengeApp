@@ -7,8 +7,50 @@ export const maskify = (number: string): string => {
   return `${number.slice(0, 1)}${mask}`;
 };
 
-export const numberToOrdinal = (number: number) => {
-  const suffix = ['th', 'st', 'nd', 'rd'];
-  const module = number % 100;
-  return number + (suffix[(module - 20) % 10] || suffix[module] || suffix[0]);
+const operators = {
+  '+': (a: number, b: number) => a + b,
+  '-': (a: number, b: number) => a - b,
+  '*': (a: number, b: number) => a * b,
+  '/': (a: number, b: number) => a / b,
+};
+
+const isOperator = function (digit: string) {
+  return digit in operators;
+};
+
+const isValue = function (token: string) {
+  return !isNaN(parseFloat(token)) && isFinite(parseInt(token, 10));
+};
+
+export const calculate = (notation: string) => {
+  if (notation.trim() === '') {
+    return null;
+  }
+  const digits = notation.split(/\s+/);
+
+  const stack: Array<string> = [];
+  while (digits.length) {
+    const digit = digits.shift() as string;
+
+    if (isValue(digit)) {
+      stack.push(digit);
+    } else if (isOperator(digit)) {
+      const a = stack.pop();
+      const b = stack.pop();
+
+      if (a == null || b == null) {
+        return null;
+      }
+
+      stack.push(operators[digit](+a, +b));
+    } else {
+      return null;
+    }
+  }
+
+  if (stack.length !== 1) {
+    return null;
+  }
+
+  return stack.pop();
 };
