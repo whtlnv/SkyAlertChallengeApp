@@ -1,62 +1,30 @@
 import React, {useState} from 'react';
-import {Image, Text, TextInput, View} from 'react-native';
+import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
 import {maskify} from '../../shared/utils';
+import {center, container, input, title} from '../../shared/styles';
 
 const CardScreen = () => {
   const [card, setCard] = useState('');
 
   return (
-    <View style={{flex: 1, marginHorizontal: 20}}>
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+    <View style={container}>
+      <View style={center}>
         <Image
-          style={{
-            resizeMode: 'contain',
-            width: 370,
-            height: 250,
-          }}
+          style={styles.card}
           source={require('../../../assets/images/credit_card.png')}
         />
-        <View
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            top: 0,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Text
-            style={{
-              color: 'white',
-              fontSize: 30,
-            }}>
-            {maskify(card)}
-          </Text>
+        <View style={[center, styles.mask]}>
+          <Text style={title}>{maskify(card)}</Text>
         </View>
       </View>
 
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-        }}>
+      <View style={styles.inputWrapper}>
         <Text>Ingresa el número de tu tarjeta</Text>
 
         <TextInput
           keyboardType={'number-pad'}
           maxLength={16}
-          style={{
-            height: 40,
-            width: '100%',
-            margin: 12,
-            borderWidth: 1,
-            padding: 10,
-          }}
+          style={input}
           onChangeText={setCard}
           value={card}
         />
@@ -64,5 +32,24 @@ const CardScreen = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  inputWrapper: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  card: {
+    resizeMode: 'contain',
+    width: 370,
+    height: 250,
+  },
+  mask: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    top: 0,
+  },
+});
 
 export default CardScreen;
