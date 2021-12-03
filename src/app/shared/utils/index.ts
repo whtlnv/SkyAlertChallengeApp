@@ -30,7 +30,7 @@ export const numberToOrdinal = (number: number) => {
 
 export const calculate = (notation: string) => {
   if (notation.trim() === '') {
-    return null;
+    throw new SyntaxError('Empty expression');
   }
   const digits = notation.split(/\s+/);
 
@@ -45,17 +45,17 @@ export const calculate = (notation: string) => {
       const b = stack.pop();
 
       if (a == null || b == null) {
-        return null;
+        throw new EvalError('Invalid Expression');
       }
 
       stack.push(operators[digit](+a, +b));
     } else {
-      return null;
+      throw new SyntaxError(`Unknown operator: ${digit}`);
     }
   }
 
   if (stack.length !== 1) {
-    return null;
+    throw new EvalError('Invalid Expression');
   }
 
   return stack.pop();
